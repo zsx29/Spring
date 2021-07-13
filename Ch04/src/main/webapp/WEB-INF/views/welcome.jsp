@@ -6,6 +6,9 @@
 	<title>Insert title here</title>
 </head>
 <body>
-
+	<h1>welcome</h1>
+	<a href="/ch04/welcome">welcome</a>
+	<a href="/ch04/greeting">greeting</a>
+	<a href="/ch04/hello">hello</a>
 </body>
 </html>

@@ -7,9 +7,9 @@
 </head>
 <body>
 	<h1>Hello</h1>
-	<a href="/ch04/welcome"></a>
-	<a href="/ch04/greeting"></a>
-	<a href="/ch04/hello"></a>
+	<a href="/ch04/welcome">welcome</a>
+	<a href="/ch04/greeting">greeting</a>
+	<a href="/ch04/hello">hello</a>
 
 </body>
 </html>
