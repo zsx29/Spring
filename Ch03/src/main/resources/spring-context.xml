@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan base-package="kr.co.ch03"></context:component-scan>	
+	
+	<!-- AOP설정 -->
+	<aop:config>
+	
+		<aop:pointcut id="selectPointcut" expression="execution(void kr.co.ch03.sub1.ArticleDao.selectArticle())"/>
+		<aop:pointcut id="updatePointcut" expression="execution(void kr.co.ch03.sub1.ArticleDao.updateArticle())"/>
+		<aop:pointcut id="deletePointcut" expression="execution(void kr.co.ch03.sub1.ArticleDao.deleteArticle())"/>
+		<aop:aspect ref="daoAdvice">
+			<aop:before method="beforeAdvice2" pointcut-ref="selectPointcut"/>
+			<aop:after  method="afterAdvice2"  pointcut-ref="selectPointcut"/>
+			<aop:before method="beforeAdvice3" pointcut-ref="updatePointcut"/>
+			<aop:after  method="afterAdvice3"  pointcut-ref="updatePointcut"/>
+			<aop:before method="beforeAdvice3" pointcut-ref="deletePointcut"/>
+			<aop:after  method="afterAdvice3"  pointcut-ref="deletePointcut"/>
+		</aop:aspect>
+		
+	</aop:config>
+</beans>
