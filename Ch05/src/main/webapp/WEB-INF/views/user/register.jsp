@@ -31,8 +31,7 @@
 			</tr>
 
 			<tr>
-				<td colspan="2" align="center"><input type="submit"
-					value="직원등록"></td>
+				<td colspan="2" align="center"><input type="submit" value="직원등록"></td>
 			</tr>
 		</table>
 	</form>
