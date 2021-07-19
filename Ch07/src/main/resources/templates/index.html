@@ -9,13 +9,13 @@
 	<h2 th:text="${hello}"></h2>
 	<h4 th:text="${user.uid}"></h4>
 	
-	<h4>타임리프 if</h4>
+	<h3 style="color:blue">타임리프 if</h4>
 	<p>
 		<a href="" th:if="${user}">[[${user.name}]]님 반갑습니다</a>
 		<a href="" th:unless="${user}">user가 없습니다</a>
 	</p>
 	
-	<h4>타임리프 each문(=for)</h4>
+	<h3 style="color:blue">타임리프 each문(=for)</h4>
 	<table border="1">
 		<tr th:each="user:${users}">
 			<td th:text="${user.uid}"></td>
@@ -24,5 +24,9 @@
 			<td th:text="${user.age}"></td>
 		</tr>
 	</table>
+	
+	<h3 style="color:blue">타임리프 링크</h4>
+	<a th:href="@{/include}">타임리프 인클루드 실습</a>
+	
 </body>
 </html>
