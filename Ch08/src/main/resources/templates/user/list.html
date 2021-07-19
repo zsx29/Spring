@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>ListService</title>
+</head>
+<body>
+	<a th:href="@{/user/register}">사용자등록</a>
+	<h3>직원목록</h3>
+	<table border="1">
+		<tr>
+			<th>아이디</th>
+			<th>이름</th>
+			<th>휴대폰</th>
+			<th>나이</th>
+			<th>기타</th>
+		</tr>
+
+		<tr th:each="user:${users}">
+			<td>[[${user.uid}]]</td>
+			<td>[[${user.name}]]</td>
+			<td>[[${user.hp}]]</td>
+			<td>[[${user.age}]]</td>
+			<td>
+				<a th:href="@{/user/modify(uid=${user.uid})}">수정</a> 
+				<a th:href="@{/user/delete(uid=${user.uid})}">삭제</a>
+			</td>
+		</tr>
+
+	</table>
+
+</body>
+</html>
+
