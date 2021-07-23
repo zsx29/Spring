@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.dao.ShopDao">
+	
+	<select id="selectListSoldProduct" resultType="kr.co.kmarket.vo.ProductVo">
+		SELECT *, FLOOR(price * (1 - discount/100)) AS `salePrice` FROM `km_product` ORDER BY `sold` DESC LIMIT 10;
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
