@@ -1,0 +1,77 @@
+<script>
+	
+	
+/*
+
+	jQuery 유틸리티 메서드(반복함수)
+		- 배열과 length 속성을 갖는 배열과 유사 배열 객체들을 index를 기준으로 반복할 수 있습니다.
+	
+		$.each(object, function(index, item){
+			
+		});
+
+*/  
+	
+
+	$(function(){
+		// 1차 카테고리 메뉴 가져오기
+		
+		var category = $(".category")
+		
+		$.get('/kmarket/categories', function(result){
+			
+			$.each(result, function(i, data){  // data : categoriesVo
+				
+				// cateIcon
+				var icon = "";
+				if (i==0) icon = "fas fa-shopping-bag";
+				if (i==1) icon = "fas fa-tshirt";
+				if (i==2) icon = "fas fa-baby-carriage";
+				if (i==3) icon = "fas fa-utensils";
+				if (i==4) icon = "fas fa-home";
+				if (i==5) icon = "fas fa-tv";
+				if (i==6) icon = "fas fa-running";
+				if (i==7) icon = "fas fa-car";
+				if (i==8) icon = "fas fa-book";
+				
+				
+				// cateMenu
+				var tag  = "<li>";
+					tag += "<a href='#'><i class='"+icon+"'></i>"+data.title+"</a>";		
+					tag += "<ol></ol>";		
+					tag += "</li>";		
+					
+				category.append(tag);
+				
+				// 2차 카테고리 메뉴 가져오기
+				$.each(data.cate2List, function(j, vo){  // vo : categoriesVo
+					
+					
+					$('.category ol').eq(i).append("<li><a href='/kmarket/shop/list?cate1="+vo.code1+"&cate2="+vo.code2+"'>"+vo.title+"</a></li>");
+					
+				});
+			});
+		});
+	});
+	
+</script>
+<!-- 카테고리 -->
+<ul class="category">     
+    <li><i class="fa fa-bars" aria-hidden="true"></i>카테고리</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

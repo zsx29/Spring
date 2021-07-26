@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.kmarket.dao.ShopDao">
+	
+	<select id="selectProducts" resultType="kr.co.kmarket.vo.ProductVo">
+	
+		SELECT *, FLOOR(price * (1 - discount/100)) AS `salePrice` FROM `km_product` 
+		WHERE `cate1`=#{cate1} AND `cate2`=#{cate2} 
+		<if test="sort == 1">ORDER BY `sold` DESC;</if>
+		<if test="sort == 2">ORDER BY `price` ASC;</if>
+		<if test="sort == 3">ORDER BY `price` DESC;</if>
+		<if test="sort == 4">ORDER BY `score` DESC;</if>
+		<if test="sort == 5">ORDER BY `review` DESC;</if>
+		<if test="sort == 6">ORDER BY `rdate` DESC;</if>
+		
+	</select>
+	
+	<select id="selectTitles" resultType="kr.co.kmarket.vo.ProductVo">
+		SELECT c1.title AS tit1,
+		 c2.title AS tit2
+		FROM `km_cate1` AS c1
+		JOIN `km_cate2` AS c2
+		ON c1.code1 = c2.code1
+		WHERE c1.code1=#{cate1} AND c2.code2=#{cate2};
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
