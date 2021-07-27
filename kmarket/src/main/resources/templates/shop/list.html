@@ -16,12 +16,12 @@
 
 		<!-- 정렬방식 링크 -->
 		<ul class="sort">
-			<li><a th:href="@{shop/list(cate1=${cate1}, cate2=${cate2}, sort=1)}">판매많은순</a></li>
-			<li><a th:href="@{shop/list(cate1=${cate1}, cate2=${cate2}, sort=2)}">낮은가격순</a></li>
-			<li><a th:href="@{shop/list(cate1=${cate1}, cate2=${cate2}, sort=3)}">높은가격순</a></li>
-			<li><a th:href="@{shop/list(cate1=${cate1}, cate2=${cate2}, sort=4)}">평점높은순</a></li>
-			<li><a th:href="@{shop/list(cate1=${cate1}, cate2=${cate2}, sort=5)}">후기많은순</a></li>
-			<li><a th:href="@{shop/list(cate1=${cate1}, cate2=${cate2}, sort=6)}">최근등록순</a></li>
+			<li><a th:href="@{/shop/list(cate1=${cate1}, cate2=${cate2}, sort=1)}">판매많은순</a></li>
+			<li><a th:href="@{/shop/list(cate1=${cate1}, cate2=${cate2}, sort=2)}">낮은가격순</a></li>
+			<li><a th:href="@{/shop/list(cate1=${cate1}, cate2=${cate2}, sort=3)}">높은가격순</a></li>
+			<li><a th:href="@{/shop/list(cate1=${cate1}, cate2=${cate2}, sort=4)}">평점높은순</a></li>
+			<li><a th:href="@{/shop/list(cate1=${cate1}, cate2=${cate2}, sort=5)}">후기많은순</a></li>
+			<li><a th:href="@{/shop/list(cate1=${cate1}, cate2=${cate2}, sort=6)}">최근등록순</a></li>
 		</ul>
 
 		<!-- 상품목록 10개 -->
@@ -29,14 +29,14 @@
         <article th:each="product:${products}">
           <ul>
             <li>
-              <a th:href="@{/shop/view}" class="thumb">
+              <a th:href="@{/shop/view(code=${product.code})}" class="thumb">
               	<img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${product.cate1}, c2=${product.cate2}, img=${product.thumb2})}" alt="목록 이미지"/>   
               </a>
             </li>
             <li>
-              <h3 class="name">[[${product.name}]]</h3>
+              <a th:href="@{/shop/view(code=${product.code})}"><h3 class="name">[[${product.name}]]</h3></a>
               <p class="desc">
-                <a href="#">[[${product.descript}]]</a>
+                <a th:href="@{/shop/view(code=${product.code})}">[[${product.descript}]]</a>
               </p>
             </li>
             <li>

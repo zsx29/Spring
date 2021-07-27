@@ -1,4 +1,62 @@
 <th:block th:include="@{_header.html}" />
+<script th:inline="javascript">
+	$(function(){
+		
+		// 장바구니 버튼 클릭
+		$('input.cart').click(function(){
+			
+			var product = [[${product}]];
+			var count = 1;  // 수량 
+			var total = parseInt((product.price * count) * (1 - product.discount / 100));  // 총금액
+			// JSON 데이터
+			var jsonData = {
+					
+				'code': product.code,
+				'name': product.name,
+				'count': count,
+				'price': product.price,
+				'discount': product.discount,
+				'point': product.point,				
+				'delivery': product.delivery,				
+				'total': total		
+				
+			}
+			
+ 			$.ajax({
+				url: '/kmarket/shop/cart',
+				type: 'post',
+				data: jsonData,    // JSON 데이터로 서버 전송
+				dataType: 'json',  // 서버에서 클라이언트로 되돌려주는 데이터 값 타입
+				success: function(data){
+					
+					if (data.result == 1) {
+						
+						alert("장바구니에 상품을 추가했습니다.");
+						
+					}else if(data.result == 2) {
+						
+						alert("로그인이 필요합니다.");
+						
+					}else if(data.result == 3){
+						
+						alert("이미 장바구니에 상품이 있습니다.");
+					}
+					
+				}
+			
+			});
+ 			
+		});
+		
+		// 구매하기 버튼 클릭
+		$('input.order').click(function(){
+			
+			
+		});
+		
+	});
+</script>
+
 <main>
 	<!-- 카테고리/베스트 상품 영역 -->
 	<aside>
@@ -8,58 +66,62 @@
 	<!-- 상품 상세페이지 -->
 	<section id="view">
 		<nav>
-			<h1>[블루포스] FreeMovement BLUEFORCE</h1>
+			<h1>[[${product.name}]]</h1>
 			<p>
-				HOME > <span>패션·의류·뷰티</span> > <strong>남성의류</strong>
+				HOME > <span>[[${product.tit1}]]</span> > <strong>[[${product.tit2}]]</strong>
 			</p>
 		</nav>
 		<section>
 			<article class="info">
 				<div class="image">
-					<img src="../img/thumb-sample-t1.jpg" alt="상품이미지" />
+					<img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${product.cate1}, c2=${product.cate2}, img=${product.thumb2})}" alt="목록 이미지"/>
 				</div>
 				<div class="summary">
 					<nav>
-						<h1>(주)블루포스</h1>
+						<h1>[[${product.company}]]</h1>
 						<h2>
-							상품번호&nbsp;:&nbsp;<span>10010118412</span>
+							상품번호&nbsp;:&nbsp;<span>[[${product.code}]]</span>
 						</h2>
 					</nav>
-					<p>남자 셔츠 남방 남성 와이셔츠 체크남방 스트라이프</p>
+					<p>[[${product.descript}]]</p>
 					<nav>
-						<h5 class="rating star4">
-							<a href="#">상품평보기</a>
-						</h5>
+						<h5 th:if="${product.score == 1}" class="rating star1"><a href="#">상품평보기</a></h5>
+						<h5 th:if="${product.score == 2}" class="rating star2"><a href="#">상품평보기</a></h5>
+						<h5 th:if="${product.score == 3}" class="rating star3"><a href="#">상품평보기</a></h5>
+						<h5 th:if="${product.score == 4}" class="rating star4"><a href="#">상품평보기</a></h5>
+						<h5 th:if="${product.score == 5}" class="rating star5"><a href="#">상품평보기</a></h5>
 					</nav>
 					<nav>
-						<div class="org_price">
-							<del>30,000</del>
-							<span>10%</span>
-						</div>
 						<div class="dis_price">
-							<ins>27,000</ins>
+							<ins>[[${#numbers.formatInteger(product.salePrice, 3, 'COMMA')}]]</ins>
+						</div>
+						<div class="org_price">
+							<del>[[${#numbers.formatInteger(product.price, 3, 'COMMA')}]]</del>
+							<span>[[${product.discount}]]%</span>
 						</div>
 					</nav>
 					<nav>
-						<span class="delivery">무료배송</span> <span class="arrival">모레(금)
-							7/8 도착예정</span> <span class="desc">본 상품은 국내배송만 가능합니다.</span>
+						<span th:if="${product.delivery == 0}" class="freeshipping">무료배송</span>
+			  			<span th:if="${product.delivery > 0}">배송비 [[${#numbers.formatInteger(product.delivery, 3, 'COMMA')}]]원</span>
+			  			<span class="arrival">모레(금) 7/28 도착예정</span>
+			  			<span class="desc">본 상품은 국내배송만 가능합니다.</span>
 					</nav>
 					<nav>
-						<span class="card cardfree"><i>아이콘</i>무이자할부</span>&nbsp;&nbsp; <span
-							class="card cardadd"><i>아이콘</i>카드추가혜택</span>
+						<span class="card cardfree"><i>아이콘</i>무이자할부</span>&nbsp;&nbsp; 
+						<span class="card cardadd"><i>아이콘</i>카드추가혜택</span>
 					</nav>
 					<nav>
 						<span class="origin">원산지-상세설명 참조</span>
 					</nav>
-					<img src="../img/vip_plcc_banner.png" alt="100원만 결제해도 1만원 적립!"
-						class="banner" />
+					<img src="../img/vip_plcc_banner.png" alt="100원만 결제해도 1만원 적립!" class="banner" />
 					<div class="total">
-						<span>35,000</span> <em>총 상품금액</em>
+						<span>[[${#numbers.formatInteger(product.salePrice, 3, 'COMMA')}]]</span> 
+						<em>총 상품금액</em>
 					</div>
 
 					<div class="button">
-						<input type="button" class="cart" value="장바구니" /> <input
-							type="button" class="order" value="구매하기" />
+						<input type="button" class="cart" value="장바구니" /> 
+						<input type="button" class="order" value="구매하기" />
 					</div>
 
 				</div>
@@ -69,8 +131,7 @@
 					<h1>상품정보</h1>
 				</nav>
 				<!-- 상품상세페이지 이미지 -->
-				<img src="../img/sample_detail1.jpg" alt=""> <img
-					src="../img/sample_detail2.jpg" alt="">
+				<img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${product.cate1}, c2=${product.cate2}, img=${product.detail})}" alt="상품 상세 이미지"/>
 			</article>
 
 			<article class="notice">
@@ -81,31 +142,31 @@
 				<table border="0">
 					<tr>
 						<td>상품번호</td>
-						<td>10110125435</td>
+						<td>[[${product.code}]]</td>
 					</tr>
 					<tr>
 						<td>상품상태</td>
-						<td>새상품</td>
+						<td>[[${product.status}]]</td>
 					</tr>
 					<tr>
 						<td>부가세 면세여부</td>
-						<td>과세상품</td>
+						<td>[[${product.dutyFree}]]</td>
 					</tr>
 					<tr>
 						<td>영수증발행</td>
-						<td>발행가능 - 신용카드 전표, 온라인 현금영수증</td>
+						<td>[[${product.receipt}]]</td>
 					</tr>
 					<tr>
 						<td>사업자구분</td>
-						<td>사업자 판매자</td>
+						<td>[[${product.bizClass}]]</td>
 					</tr>
 					<tr>
 						<td>브랜드</td>
-						<td>블루포스</td>
+						<td>[[${product.company}]]</td>
 					</tr>
 					<tr>
 						<td>원산지</td>
-						<td>국내생산</td>
+						<td>[[${product.origin}]]</td>
 					</tr>
 				</table>
 				<table border="0">

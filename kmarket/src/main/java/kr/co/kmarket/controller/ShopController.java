@@ -2,13 +2,21 @@ package kr.co.kmarket.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import kr.co.kmarket.service.ShopService;
+import kr.co.kmarket.vo.CartVo;
+import kr.co.kmarket.vo.MemberVo;
 import kr.co.kmarket.vo.ProductVo;
 
 @Controller
@@ -22,11 +30,56 @@ public class ShopController {
 		return "/shop/cart";
 	}
 	
+	@ResponseBody
+	@PostMapping("/shop/cart")
+	public String cart(CartVo vo, HttpSession sess) {
+		
+		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
+		
+		int result = 0;
+		
+		if (memberVo != null) {
+			// 로그인 했을 경우...
+			
+			String uid = memberVo.getUid();
+			int code = vo.getCode();
+			
+			vo.setUid(uid);
+			
+			int count = service.selectCountCart(code, uid);
+			
+			if (count < 1) {
+				// 장바구니에 상품이 없으면...
+				
+				service.insertCart(vo);
+				result = 1;
+				
+			} else {
+				// 장바구니에 이미 상품이 있으면...
+				
+				result = 3;
+			}
+			
+			
+		}else {
+			// 로그인 안했을 경우...
+			
+			result = 2;
+
+		}
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("result", result);
+		
+		return new Gson().toJson(json);
+		
+	}
+	
 	@GetMapping("/shop/order")
 	public String order() {
 		return "/shop/order";
 	}
-	
+
 	@GetMapping("/shop/order-complete")
 	public String orderComplete() {
 		return "/shop/order-complete";
@@ -38,8 +91,13 @@ public class ShopController {
 	}
 	
 	@GetMapping("/shop/view")
-	public String view() {
+	public String view(Model model, int code) {
+		
+		ProductVo product = service.selectProduct(code);
+		model.addAttribute("product", product);
+		
 		return "/shop/view";
+		
 	}
 	
 	@GetMapping("/shop/list")
