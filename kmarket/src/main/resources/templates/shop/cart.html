@@ -136,7 +136,58 @@
 	$(function(){});
 	
 	// 상품 주문하기...
-	$(function(){});
+	$(function(){
+		
+		$('input[name=order]').click(function(){
+			
+			var checkedProducts = $('input[name=checkProduct]:checked');
+			
+			var codes = [];
+			checkedProducts.each(function(i, product){
+				codes.push(product.value); 
+			});
+			
+			
+			var uid 	 = [[${session.sessMember.uid}]];
+			var count 	 = $('.info .count').text().replace(/,/g,'');
+			var price 	 = $('.info .price').text().replace(/,/g,'');
+			var discount = $('.info .discount').text().replace(/,/g,'');
+			var delivery = $('.info .delivery').text().replace(/,/g,'');
+			var point 	 = $('.info .point').text().replace(/,/g,'');
+			var total 	 = $('.info .total').text().replace(/,/g,'');
+			
+			var jsonData = {
+					
+					"uid" : uid,
+					"count" : count,
+					"price" : price,
+					"discount" : discount,
+					"delivery" : delivery,
+					"point" : point,
+					"total" : total,
+					"codes" : codes
+			};
+			
+			
+			$.ajax({
+				
+				url : '/kmarket/shop/order',
+				type : 'post',
+				traditional : true,  // 객체를 전달할 때 사용
+				data : jsonData,
+				dataType : 'json',
+				success : function(data){
+					// alert("전송완료...");
+					// 주문하기 이동
+					location.href = "/kmarket/shop/order?orderId="+data.orderId;
+					
+				}
+			
+			});
+			
+		});
+		
+	});
 	
 </script>
 <main>
@@ -175,7 +226,7 @@
 							<td colspan="7">장바구니에 상품이 없습니다.</td>
 						</tr>
 						<tr th:each="product:${products}">
-							<td><input type="checkbox" name="checkProduct" checked></td>
+							<td><input type="checkbox" name="checkProduct" th:value="${product.code}" checked></td>
 							<td>
 								<article>
 									<a href="#"><img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${product.cate1}, c2=${product.cate2}, img=${product.thumb1})}" alt="목록 이미지"/></a>
@@ -206,30 +257,30 @@
 			<table border="0">
 				<tr>
 					<td>상품수</td>
-					<td>1</td>
+					<td class="count">1</td>
 				</tr>
 				<tr>
 					<td>상품금액</td>
-					<td>27,000</td>
+					<td class="price">27,000</td>
 				</tr>
 				<tr>
 					<td>할인금액</td>
-					<td>-1,000</td>
+					<td class="discount">-1,000</td>
 				</tr>
 				<tr>
 					<td>배송비</td>
-					<td>0</td>
+					<td class="delivery">0</td>
 				</tr>
 				<tr>
 					<td>포인트</td>
-					<td>260</td>
+					<td class="point">260</td>
 				</tr>
 				<tr>
 					<td>전체주문금액</td>
-					<td>26,000</td>
+					<td class="total">26,000</td>
 				</tr>
 			</table>
-			<input type="button" name="" value="주문하기">
+			<input type="button" name="order" value="주문하기">
 		</div>
 	</section>
 </main>

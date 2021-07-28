@@ -65,6 +65,23 @@
 		ORDER BY `seq` DESC;
 	</select>
 	
+	<insert id="insertOrder" useGeneratedKeys="true" keyProperty="orderId">
+		INSERT INTO `km_product_order` SET
+			`uid` = #{uid},
+			`count` = #{code},
+			`price` = #{name},
+			`discount` = #{count},
+			`delivery` = #{price},
+			`point` = #{discount},
+			`total` = #{point},
+			`rdate` = NOW();
+			
+	</insert>
+	
+	<insert id="insertOrderDetail">
+		INSERT INTO `km_product_order_detail` (`orderId`, `code`) VALUES (#{orderId}, #{code});
+	</insert>
+	
 </mapper>
 
 

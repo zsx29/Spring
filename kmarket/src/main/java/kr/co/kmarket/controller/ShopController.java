@@ -17,6 +17,7 @@ import com.google.gson.JsonObject;
 import kr.co.kmarket.service.ShopService;
 import kr.co.kmarket.vo.CartVo;
 import kr.co.kmarket.vo.MemberVo;
+import kr.co.kmarket.vo.OrderVo;
 import kr.co.kmarket.vo.ProductVo;
 
 @Controller
@@ -98,6 +99,29 @@ public class ShopController {
 		return "/shop/order";
 	}
 
+	@ResponseBody
+	@PostMapping("/shop/order")
+	public String order(OrderVo vo) {
+		
+		
+		service.insertOrder(vo);
+		
+		// 방금 insert한 데이터 orderId
+		int orderId = vo.getOrderId();
+		
+		for(int code : vo.getCodes()) {			
+			
+			service.insertOrderDetail(orderId, code);
+			
+		}
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("orderId", orderId);
+		
+		return new Gson().toJson(json);
+	}
+
+	
 	@GetMapping("/shop/order-complete")
 	public String orderComplete() {
 		return "/shop/order-complete";
