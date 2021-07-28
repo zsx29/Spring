@@ -43,10 +43,6 @@ public class ShopController {
 
 		}
 		
-		
-		
-		
-		
 	}
 	
 	@ResponseBody

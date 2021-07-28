@@ -68,12 +68,12 @@
 	<insert id="insertOrder" useGeneratedKeys="true" keyProperty="orderId">
 		INSERT INTO `km_product_order` SET
 			`uid` = #{uid},
-			`count` = #{code},
-			`price` = #{name},
-			`discount` = #{count},
-			`delivery` = #{price},
-			`point` = #{discount},
-			`total` = #{point},
+			`count` = #{count},
+			`price` = #{price},
+			`discount` = #{discount},
+			`delivery` = #{delivery},
+			`point` = #{point},
+			`total` = #{total},
 			`rdate` = NOW();
 			
 	</insert>

@@ -24,7 +24,7 @@ public interface ShopDao {
 	public void insertCart(CartVo vo);
 	
 	// 장바구니 중복
-	public int selectCountCart(int code, String uid);
+	public int selectCountCart(int codes, String uid);
 	
 	// 장바구니
 	public List<CartVo> selectCart(String uid);  // String uid
@@ -32,6 +32,6 @@ public interface ShopDao {
 	// 주문하기
 	public void insertOrder(OrderVo vo);
 	
-	//
+	// 상세주문하기
 	public void insertOrderDetail(int orderId, int code);
 }

@@ -47,8 +47,8 @@ public class ShopService {
 	};
 	
 	// 장바구니 중복
-	public int selectCountCart(int code, String uid){
-		return dao.selectCountCart(code, uid);
+	public int selectCountCart(int codes, String uid){
+		return dao.selectCountCart(codes, uid);
 	};
 	
 	// 장바구니 
@@ -61,7 +61,7 @@ public class ShopService {
 		dao.insertOrder(vo);
 	};
 	
-	//
+	// 상세주문하기
 	public void insertOrderDetail(int orderId, int code){
 		dao.insertOrderDetail(orderId, code);
 	};
