@@ -40,7 +40,7 @@ public class ShopService {
 		
 	};
 	
-	// 장바구니
+	// 장바구니 추가
 	public void insertCart(CartVo vo){
 		dao.insertCart(vo);
 	};
@@ -49,6 +49,26 @@ public class ShopService {
 	public int selectCountCart(int code, String uid){
 		return dao.selectCountCart(code, uid);
 	};
+	
+	// 장바구니 
+	public List<CartVo> selectCart(String uid){
+		return dao.selectCart(uid);
+	};
+	
+	
+	
+	
+	
+	
 
 	
 }
+
+
+
+
+
+
+
+
+
