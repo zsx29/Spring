@@ -7,32 +7,35 @@
 		// 포인트 할인적용
 		$('.btnPoint').click(function(){
 			
-			var pointField = $('input[name=point]');
-			var point = pointField.val();
-			var currentPoint = $('.currentPoint');
-			var cPoint = Number(currentPoint.text());
-			
+			var pointField    = $('input[name=point]');     		// 포인트 입력창
+			var point         = Number(pointField.val());			// 포인트 입력값
+			var currentPoint  = $('.currentPoint');	  				// 현재 포인트
+			var cPoint        = Number(currentPoint.text()); 		// 현재 포인트 입력
+			var pointDiscount = $('.pointDiscount');
+
 			if (point == 0) {
 				
+				// 포인트값을 입력안하고 눌렀을 경우
 				alert("할인 적용할 포인트를 입력하세요");
+				
 				
 			}else if(point > cPoint){
 				
+				// 포인트가 부족할 경우
 				alert("포인트가 부족합니다.");
 				pointField.val(0);
 				
+				
 			}else{
 				
+				// 포인트 입력 -> 적용
 				currentPoint.text(cPoint - point);
-				$('.pointDiscount').text(point.toLocaleString());
+				pointDiscount.text(point.toLocaleString());
 				var finalPrice = $('.final').text().replace(/,/g,'');
 				finalPrice -= point;
-				
 				$('.final').text(finalPrice.toLocaleString());
-				
-
-			} // 포인트 적용 누르면 계속 포인트 깎임 - 수정!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-						
+			}
+		
 		});
 		
 		// 최종 주문하기
