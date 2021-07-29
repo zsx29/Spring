@@ -34,4 +34,10 @@ public class MemberVo {
 	private String etc4;
 	private String etc5;
 
+	// 이용약관 추가필드
+	private String terms;
+	private String privacy;
+	private String location;
+	private String finance;
+	private String tax;
 }

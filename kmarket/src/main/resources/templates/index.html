@@ -106,79 +106,21 @@
 						<i class="fas fa-crown"></i>베스트상품
 					</h1>
 					<ol>
-						<li><a href="#">
+						<li th:each="product:${productsHit}">
+							<a href="#">
 								<div class="thumb">
-									<i>1</i> <img src="./img/thumb-popular-item1.jpg" alt="item1">
+									<img th:src="@{/thumb/{c1}/{c2}/{img}(c1=${product.cate1}, c2=${product.cate2}, img=${product.thumb1})}" alt="t1">
 								</div>
-								<h2>TH-파스텔드레스셔츠 - 그린</h2>
+								<h2>[[${product.name}]]</h2>
 								<div class="org_price">
-									<del>30,000</del>
-									<span>10%</span>
+									<del>[[${product.price}]]</del>
+									<span>[[${product.discount}]]%</span>
 								</div>
 								<div class="dis_price">
-									<ins>27,000</ins>
+									<ins>[[${product.salePrice}]]</ins>
 								</div>
-						</a></li>
-						<li><a href="#">
-								<div class="thumb">
-									<i>2</i> <img src="./img/thumb-sample-t1.jpg" alt="item1">
-								</div>
-								<article>
-									<h2>TH-파스텔드레스셔츠 - 그린</h2>
-									<div class="org_price">
-										<del>30,000</del>
-										<span>10%</span>
-									</div>
-									<div class="dis_price">
-										<ins>27,000</ins>
-									</div>
-								</article>
-						</a></li>
-						<li><a href="#">
-								<div class="thumb">
-									<i>3</i> <img src="./img/thumb-sample-t2.jpg" alt="item1">
-								</div>
-								<article>
-									<h2>TH-파스텔드레스셔츠 - 그린</h2>
-									<div class="org_price">
-										<del>30,000</del>
-										<span>10%</span>
-									</div>
-									<div class="dis_price">
-										<ins>27,000</ins>
-									</div>
-								</article>
-						</a></li>
-						<li><a href="#">
-								<div class="thumb">
-									<i>4</i> <img src="./img/thumb-sample-t3.jpg" alt="item1">
-								</div>
-								<article>
-									<h2>TH-파스텔드레스셔츠 - 그린</h2>
-									<div class="org_price">
-										<del>30,000</del>
-										<span>10%</span>
-									</div>
-									<div class="dis_price">
-										<ins>27,000</ins>
-									</div>
-								</article>
-						</a></li>
-						<li><a href="#">
-								<div class="thumb">
-									<i>5</i> <img src="./img/thumb-sample-t4.jpg" alt="item1">
-								</div>
-								<article>
-									<h2>TH-파스텔드레스셔츠 - 그린</h2>
-									<div class="org_price">
-										<del>30,000</del>
-										<span>10%</span>
-									</div>
-									<div class="dis_price">
-										<ins>27,000</ins>
-									</div>
-								</article>
-						</a></li>
+							</a>
+						</li>
 					</ol>
 				</article>
 			</aside>

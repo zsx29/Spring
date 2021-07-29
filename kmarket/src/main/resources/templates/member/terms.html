@@ -1,0 +1,49 @@
+<th:block th:include="@{member/_header.html}" />
+<script>
+	
+	function send(){
+	var c1 = document.getElementById('agree1');
+	var c2 = document.getElementById('agree2');
+	var c3 = document.getElementById('agree3');
+	var c4 = document.getElementById('agree4');
+	
+	if (c1.checked, c2.checked, c3.checked) {
+		location.href="/kmarket/member/register";
+	}else{
+		alert("이용약관체크");
+		c1.focus();
+	}
+	
+	
+}
+	
+</script>
+        <main>
+            <div id="member-signup">
+				<h1>약관동의</h1>
+				<section>
+					<h3><span class="essential">(필수)</span>케이마켓 이용약관</h3>
+					<textarea class="terms" readonly>[[${terms.terms}]]</textarea>
+					<label><input type="checkbox" id="agree1" />동의합니다.</label>
+
+					<h3><span class="essential">(필수)</span>전자금융거래 이용약관</h3>
+					<textarea class="financial" readonly>[[${terms.privacy}]]</textarea>
+					<label><input type="checkbox" id="agree2" />동의합니다.</label>
+
+					<h3><span class="essential">(필수)</span>개인정보 수집동의</h3>
+					<textarea class="privacy" readonly>[[${terms.location}]]</textarea>
+					<label><input type="checkbox" id="agree3" />동의합니다.</label>
+				</section>
+
+				<section>
+					<h3><span class="optional">(선택)</span>위치정보 이용약관</h3>
+					<textarea class="location" readonly>[[${terms.finance}]]</textarea>
+					<label><input type="checkbox" id="agree4" />동의합니다.</label>
+				</section>
+
+				<div>
+					<input type="button" class="agree" value="동의하기" onclick="send()"/>
+				</div>
+            </div>
+        </main>        
+<th:block th:include="@{member/_footer.html}" />

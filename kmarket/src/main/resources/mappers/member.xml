@@ -5,16 +5,39 @@
 <mapper namespace="kr.co.kmarket.dao.MemberDao">
 
 	<select id="selectMember" resultType="kr.co.kmarket.vo.MemberVo">
-		SELECT * FROM `km_member` WHERE `uid` = #{uid} AND `pass` = #{pass}; <!-- 나중에 PASSWORD() 추가 -->
+		SELECT * FROM `km_member` WHERE `uid` = #{uid} AND `pass` = PASSWORD(#{pass}); <!-- 나중에 PASSWORD() 추가 -->
 	</select>
 	
-<!-- 	<update id="updateMemberPointMinus">
+	<select id="selectTerms" resultType="kr.co.kmarket.vo.MemberVo">
+		SELECT * FROM `km_terms`;
+	</select>
+	
+	<insert id="insertMember">
+		INSERT INTO `km_member` SET
+			`uid` = #{uid},
+			`pass` = PASSWORD(#{pass}),
+			`name` = #{name},
+			`gender` = #{gender},
+			`email` = #{email},
+			`hp` = #{hp},
+			`zip` = #{zip},
+			`addr1` = #{addr1},
+			`addr2` = #{addr2},
+			`rdate` = NOW();
+
+	</insert>
+	
+	
+	
+	<!--
+ 	<update id="updateMemberPointMinus">
 		UPDATE `km_member` SET `point` = `point` - #{applyPoint} AND `point ` + #{point} WHERE `uid`=#{uid};
 	</update>
 	
 	<update id="updateMemberPointPlus">
 		UPDATE `km_member` SET `point` = `point` + #{applyPoint} WHERE `uid`=#{uid};
-	</update> -->
+	</update>
+	-->
 </mapper>
 
 
