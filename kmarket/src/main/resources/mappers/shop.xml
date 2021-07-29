@@ -82,6 +82,41 @@
 		INSERT INTO `km_product_order_detail` (`orderId`, `code`) VALUES (#{orderId}, #{code});
 	</insert>
 	
+	<select id="selectOrders" resultType="kr.co.kmarket.vo.OrderVo">
+		SELECT 
+			a.*,
+			c.`cate1`,
+			c.`cate2`,
+			c.`thumb1`,
+			c.`name` AS pName,
+			c.`price` AS pPrice,
+			c.`discount` AS pDiscount,
+			c.`point` AS pPoint,
+			c.`delivery` AS pDelivery,
+			FLOOR(c.`price` * (1 - c.`discount` / 100) + c.`delivery`) AS `pTotal`
+		FROM `km_product_order` AS a 
+		JOIN `km_product_order_detail` AS b
+		ON a.orderId = b.orderId
+		JOIN `km_product` AS c
+		ON b.code = c.code
+		WHERE a.`orderId` = #{orderId};
+	</select>
+	
+	<update id="updateOrder">
+		UPDATE `km_product_order` SET
+			`applyPoint`=#{applyPoint},
+			`total`= `total` - #{applyPoint},
+			`orderer`=#{orderer},
+			`hp`=#{hp},
+			`zip`=#{zip},
+			`addr1`=#{addr1},
+			`addr2`=#{addr2},
+			`payment`=#{payment},
+			`complete`=1,
+			`completeDate`= NOW()
+		WHERE `orderId` = ${orderId};
+	</update>
+	
 </mapper>
 
 

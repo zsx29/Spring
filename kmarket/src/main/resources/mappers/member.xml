@@ -7,6 +7,14 @@
 	<select id="selectMember" resultType="kr.co.kmarket.vo.MemberVo">
 		SELECT * FROM `km_member` WHERE `uid` = #{uid} AND `pass` = #{pass}; <!-- 나중에 PASSWORD() 추가 -->
 	</select>
+	
+<!-- 	<update id="updateMemberPointMinus">
+		UPDATE `km_member` SET `point` = `point` - #{applyPoint} AND `point ` + #{point} WHERE `uid`=#{uid};
+	</update>
+	
+	<update id="updateMemberPointPlus">
+		UPDATE `km_member` SET `point` = `point` + #{applyPoint} WHERE `uid`=#{uid};
+	</update> -->
 </mapper>
 
 

@@ -147,8 +147,7 @@
 				codes.push(product.value); 
 			});
 			
-			
-			var uid 	 = [[${session.sessMember.uid}]];
+			var uid      = [[${session.sessMember.uid}]];
 			var count 	 = $('.info .count').text().replace(/,/g,'');
 			var price 	 = $('.info .price').text().replace(/,/g,'');
 			var discount = $('.info .discount').text().replace(/,/g,'');
@@ -166,9 +165,9 @@
 					"point" : point,
 					"total" : total,
 					"codes" : codes
+					
 			};
-			
-			
+		
 			$.ajax({
 				
 				url : '/kmarket/shop/order',
@@ -177,7 +176,6 @@
 				data : jsonData,
 				dataType : 'json',
 				success : function(data){
-					// alert("전송완료...");
 					// 주문하기 이동
 					location.href = "/kmarket/shop/order?orderId="+data.orderId;
 					

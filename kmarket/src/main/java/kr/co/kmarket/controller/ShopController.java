@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import kr.co.kmarket.service.MemberService;
 import kr.co.kmarket.service.ShopService;
 import kr.co.kmarket.vo.CartVo;
 import kr.co.kmarket.vo.MemberVo;
@@ -24,10 +25,13 @@ import kr.co.kmarket.vo.ProductVo;
 public class ShopController {
 
 	@Autowired
-	public ShopService service;
-	
+	private ShopService service;
+	@Autowired
+	private MemberService Memberservice;
+
 	@GetMapping("/shop/cart")
 	public String cart(HttpSession sess, Model model) {
+
 		
 		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
 		if (memberVo != null) {
@@ -45,6 +49,7 @@ public class ShopController {
 		
 	}
 	
+	// 장바구니 추가
 	@ResponseBody
 	@PostMapping("/shop/cart")
 	public String cart(CartVo vo, HttpSession sess) {
@@ -91,8 +96,24 @@ public class ShopController {
 	}
 	
 	@GetMapping("/shop/order")
-	public String order() {
-		return "/shop/order";
+	public String order(int orderId, Model model, HttpSession sess) {
+		
+		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
+		
+		if (memberVo == null) {
+			
+			return "redirect:/member/login?success=105";
+			
+		}else {
+			
+			List<OrderVo> orders = service.selectOrders(orderId);
+			model.addAttribute("orders", orders);
+			model.addAttribute("memberVo", memberVo);
+			model.addAttribute("infoData", orders.get(0));
+			
+			return "/shop/order";
+		}
+		
 	}
 
 	@ResponseBody
@@ -117,10 +138,24 @@ public class ShopController {
 		return new Gson().toJson(json);
 	}
 
-	
 	@GetMapping("/shop/order-complete")
 	public String orderComplete() {
 		return "/shop/order-complete";
+	}
+	
+	@ResponseBody
+	@PostMapping("/shop/order-complete")
+	public String orderComplete(OrderVo vo) {
+
+
+		int result = service.updateOrder(vo);
+		
+		// memberService.업데이트포인트
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("result", result);
+		
+		return new Gson().toJson(json);
 	}
 	
 	@GetMapping("/shop/search")

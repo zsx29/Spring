@@ -12,10 +12,11 @@ public class OrderVo {
 	private int discount;
 	private int delivery;
 	private int point;
+	private int applyPoint;
 	private int total;
 	private String orderer;
 	private String hp;
-	private int zip;
+	private String zip;
 	private String addr1;
 	private String addr2;
 	private int payment;
@@ -25,4 +26,13 @@ public class OrderVo {
 	
 	// 추가필드
 	private int[] codes;
+	private int cate1;
+	private int cate2;
+	private String thumb1;
+	private String pName;
+	private int pPrice;
+	private int pDiscount;
+	private int pPoint;
+	private int pDelivery;
+	private int pTotal;
 }
