@@ -133,7 +133,37 @@
 	});
 	
 	// 상품 삭제하기...
-	$(function(){});
+	$(function(){
+		
+		$('input[name=del]').click(function(){
+			
+			var uid            = [[${session.sessMember.uid}]];
+			var checkedProduct = $('input[name=checkProduct]:checked');
+			var code           = $('input[name=checkProduct].val()');
+			
+			var jsonData = {
+				'uid' : uid,
+				'code' : code
+			};
+			
+			console.log(code);
+			/*
+			$ajax({
+				url : '/kmarket/shop/cart',
+				type : 'post',
+				traditional : true,  // 객체를 전달할 때 사용
+				data : jsonData,
+				dataType : 'json',
+				success : function(data){
+					// 주문하기 이동
+					alert("전송 성공...");
+					
+				}
+			})
+			*/
+			
+		});
+	});
 	
 	// 상품 주문하기...
 	$(function(){
@@ -255,27 +285,27 @@
 			<table border="0">
 				<tr>
 					<td>상품수</td>
-					<td class="count">1</td>
+					<td class="count"></td>
 				</tr>
 				<tr>
 					<td>상품금액</td>
-					<td class="price">27,000</td>
+					<td class="price"></td>
 				</tr>
 				<tr>
 					<td>할인금액</td>
-					<td class="discount">-1,000</td>
+					<td class="discount"></td>
 				</tr>
 				<tr>
 					<td>배송비</td>
-					<td class="delivery">0</td>
+					<td class="delivery"></td>
 				</tr>
 				<tr>
 					<td>포인트</td>
-					<td class="point">260</td>
+					<td class="point"></td>
 				</tr>
 				<tr>
 					<td>전체주문금액</td>
-					<td class="total">26,000</td>
+					<td class="total"></td>
 				</tr>
 			</table>
 			<input type="button" name="order" value="주문하기">
