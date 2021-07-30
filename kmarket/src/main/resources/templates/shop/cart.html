@@ -137,30 +137,35 @@
 		
 		$('input[name=del]').click(function(){
 			
-			var uid            = [[${session.sessMember.uid}]];
-			var checkedProduct = $('input[name=checkProduct]:checked');
-			var code           = $('input[name=checkProduct].val()');
 			
+			var uid = [[${session.sessMember.uid}]];
+			var checkedProducts = $('input[name=checkProduct]:checked');
+			var codes = [];
+			
+			checkedProducts.each(function(i, product){
+				codes.push(product.value);
+			});
+			
+		
 			var jsonData = {
 				'uid' : uid,
-				'code' : code
+				'codes' : codes
 			};
 			
-			console.log(code);
-			/*
-			$ajax({
-				url : '/kmarket/shop/cart',
+			// console.log(jsonData);
+			
+			$.ajax({
+				url : '/kmarket/shop/del',
 				type : 'post',
 				traditional : true,  // 객체를 전달할 때 사용
 				data : jsonData,
 				dataType : 'json',
 				success : function(data){
-					// 주문하기 이동
-					alert("전송 성공...");
+					
+					location.href = "/kmarket/shop/cart?success=100";
 					
 				}
 			})
-			*/
 			
 		});
 	});

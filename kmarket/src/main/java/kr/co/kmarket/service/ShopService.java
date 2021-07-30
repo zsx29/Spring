@@ -51,6 +51,12 @@ public class ShopService {
 		return dao.selectCountCart(code, uid);
 	};
 	
+	// 장바구니 삭제
+	public void deleteCart(String uid, int codes){
+		dao.deleteCart(uid, codes);
+	};
+	
+	
 	// 장바구니 
 	public List<CartVo> selectCart(String uid){
 		return dao.selectCart(uid);

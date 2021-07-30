@@ -20,6 +20,7 @@
 			`gender` = #{gender},
 			`email` = #{email},
 			`hp` = #{hp},
+			`point` = 5000,
 			`zip` = #{zip},
 			`addr1` = #{addr1},
 			`addr2` = #{addr2},

@@ -24,4 +24,5 @@ public class CartVo {
 	private String thumb1;
 	
 	
+	
 }

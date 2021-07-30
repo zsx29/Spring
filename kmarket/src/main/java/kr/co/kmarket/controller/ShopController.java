@@ -32,7 +32,6 @@ public class ShopController {
 	@GetMapping("/shop/cart")
 	public String cart(HttpSession sess, Model model) {
 
-		
 		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
 		if (memberVo != null) {
 			
@@ -53,7 +52,7 @@ public class ShopController {
 	@ResponseBody
 	@PostMapping("/shop/cart")
 	public String cart(CartVo vo, HttpSession sess) {
-		
+
 		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
 		
 		int result = 0;
@@ -63,23 +62,20 @@ public class ShopController {
 			
 			String uid = memberVo.getUid();
 			int code = vo.getCode();
-			
 			vo.setUid(uid);
+			
 			
 			int count = service.selectCountCart(code, uid);
 			
 			if (count < 1) {
 				// 장바구니에 상품이 없으면...
-				
 				service.insertCart(vo);
 				result = 1;
 				
 			} else {
 				// 장바구니에 이미 상품이 있으면...
-				
 				result = 3;
 			}
-			
 			
 		}else {
 			// 로그인 안했을 경우...
@@ -94,22 +90,39 @@ public class ShopController {
 		return new Gson().toJson(json);
 		
 	}
+		
+	// 장바구니 삭제
+	@ResponseBody
+	@PostMapping("/shop/del")
+	public String delCart(String uid, int[] codes) {
+
+		int size = codes.length;
+		
+		for(int i = 0; i < size; i++) {
+			service.deleteCart(uid, codes[i]);
+		}
+		
+		JsonObject json = new JsonObject();
+		json.addProperty("uid", 1);
+		
+		return new Gson().toJson(json);
+	}
 	
 	@GetMapping("/shop/order")
 	public String order(int orderId, Model model, HttpSession sess) {
 		
-		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
 		
+		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
 		if (memberVo == null) {
-			
+			// 로그인 안했으면...
 			return "redirect:/member/login?success=105";
 			
 		}else {
-			
+			// 로그인 했으면...
 			List<OrderVo> orders = service.selectOrders(orderId);
-			model.addAttribute("orders", orders);
-			model.addAttribute("memberVo", memberVo);
-			model.addAttribute("infoData", orders.get(0));
+			model.addAttribute("orders", orders);          // 주문상품 뿌리기
+			model.addAttribute("memberVo", memberVo);	   // 배송정보에 사용자 정보 뿌리기
+			model.addAttribute("infoData", orders.get(0)); // 최정결제 정보 뿌리기
 			
 			return "/shop/order";
 		}
@@ -119,7 +132,7 @@ public class ShopController {
 	@ResponseBody
 	@PostMapping("/shop/order")
 	public String order(OrderVo vo) {
-		
+
 		
 		service.insertOrder(vo);
 		
@@ -139,18 +152,30 @@ public class ShopController {
 	}
 
 	@GetMapping("/shop/order-complete")
-	public String orderComplete() {
+	public String orderComplete(HttpSession sess, int orderId, Model model) {
+
+		MemberVo memberVo = (MemberVo) sess.getAttribute("sessMember");
+		if (memberVo == null) {
+			// 로그인 안했으면...
+			return "redirect:/member/login?success=105";
+		}else {
+			// 로그인 했으면...
+			List<OrderVo> orders = service.selectOrders(orderId);
+			model.addAttribute("orders", orders);
+		}
+		
+		
 		return "/shop/order-complete";
 	}
 	
+	// 주문 최종완료 page
 	@ResponseBody
 	@PostMapping("/shop/order-complete")
 	public String orderComplete(OrderVo vo) {
 
-
 		int result = service.updateOrder(vo);
-		
-		// memberService.업데이트포인트
+
+		//memberService.updatePoint();
 		
 		JsonObject json = new JsonObject();
 		json.addProperty("result", result);
@@ -165,6 +190,7 @@ public class ShopController {
 	
 	@GetMapping("/shop/view")
 	public String view(Model model, int code) {
+
 		
 		ProductVo product = service.selectProduct(code);
 		model.addAttribute("product", product);
